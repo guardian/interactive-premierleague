@@ -21,6 +21,8 @@ export default class DataUtils {
 					row.Affected=player.Affected==="Y"?1:2;	
 				}
 				
+			} else {
+				row.Affected=0;
 			}
 			
 		})
@@ -57,7 +59,13 @@ export default class DataUtils {
 							}).map(function(d,i){
 								d.index=i
 								return d;
-							})
+							}),
+							safe:leaves.filter(function(d){
+								return d.Affected===1;
+							}).length,
+							affected:leaves.filter(function(d){
+								return d.Affected===2;
+							}).length
 						}
 					})
 					.entries(data);

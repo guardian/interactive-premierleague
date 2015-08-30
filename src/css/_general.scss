@@ -59,3 +59,13 @@ a {
 .fonts__text-egyptian { @include fs-bodyCopy(2); }
 .fonts__sans { @include f-headlineSans; }
 .fonts__text-sans { @include fs-textSans(4); }
+
+.clearfix:before,
+.clearfix:after {
+    content: ".";    
+    display: block;    
+    height: 0;    
+    overflow: hidden; 
+}
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; } /* IE < 8 */

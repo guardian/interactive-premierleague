@@ -24,7 +24,7 @@ export default class Teams {
 		this.data=data;
 		this.options=options;
 
-		
+
 
 		this._buildTeams();
 
@@ -44,11 +44,11 @@ export default class Teams {
 				.attr("class","teams")
 				.selectAll("div.team")
 					.data(this.teams.sort(function(a,b){
-						return b.values.players.length - a.values.players.length
+						return b.values.players.filter(function(d){return d.Affected===2}).length - a.values.players.filter(function(d){return d.Affected===2}).length
 					}))
 					.enter()
 					.append("div")
-						.attr("class","team")
+						.attr("class","team clearfix")
 						.attr("rel",function(d){
 							return d.key;
 						})

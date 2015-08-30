@@ -1,3 +1,5 @@
+import Tooltip from './Tooltip'
+
 export default class Team {
 
 	constructor(data,options) {
@@ -18,8 +20,8 @@ export default class Team {
 
 		this.margins={
 			top:20,
-			left:10,
-			right:10,
+			left:15,
+			right:15,
 			bottom:20
 		}
 
@@ -28,7 +30,7 @@ export default class Team {
 		this._buildChart();
 
 
-
+		
 	}
 
 	_buildChart() {
@@ -41,6 +43,9 @@ export default class Team {
 		this.width = box.width;
 		this.height = box.height;
 
+		this.width=140;
+		this.height=120;
+
 		console.log(this.width,this.height)
 
 		this.xscale=d3.scale.linear().domain([0,this.extents.perPosition[1]]).range([0,this.width-(this.margins.left+this.margins.right)]);
@@ -48,16 +53,48 @@ export default class Team {
 
 
 
-		d3.select(this.options.container)
+		var header=d3.select(this.options.container).append("div").attr("class","header");
+
+		header
 			.append("h2")
 			.text(this.options.team)
+		header
+			.append("p")
+			.html("Safe: <span class=\"safe\">"+this.data.safe+"</span> Affected: <span class=\"affected\">"+this.data.affected+"</span>")
 
-		this.svg = d3.select(this.options.container)
+		this.svg_container = d3.select(this.options.container)
 						.append("div")
-							.attr("class","players")
+							.attr("class","players");
+
+		this.svg=this.svg_container
 								.append("svg")
 								.attr("width",this.width)
 								.attr("height",this.height)
+								.on("mouseleave",function(){
+									self.tooltip.hide();
+								})
+
+		this.tooltip = new Tooltip({
+	    	container:this.svg_container.node(),
+	    	margins:this.margins,
+	    	padding:"10px",
+	    	width:150,
+	    	html:"<p><span></span>, <span></span> <span></span> is <span></span></p>",
+	    	indicators:[
+	    		{
+	    			id:"name",
+	    		},
+	    		{
+	    			id:"playing_for"
+	    		},
+	    		{
+	    			id:"team"
+	    		},
+	    		{
+	    			id:"status"
+	    		}
+	    	]
+	    });
 
 		this._addField();
 
@@ -66,6 +103,7 @@ export default class Team {
 				.attr("x2",this.width/2)
 				.attr("y1",0)
 				.attr("y2",this.height)
+				
 
 		this.players = this.svg.append("g")
 						.attr("class","players")
@@ -95,6 +133,38 @@ export default class Team {
 								var dx=self.xscale.range()[1]/2 - self.xscale((self.data[d.Position].length-1)/2);//((self.width-self.margins.left-self.margins.right)-self.data[d.Position].length*player_width)/2
 
 								return "translate("+(x+dx)+","+y+")"
+							})
+							.on("mouseenter",function(d){
+								var x=self.xscale(d.index),
+									y=self.yscale(d.Position);
+								var dx=self.xscale.range()[1]/2 - self.xscale((self.data[d.Position].length-1)/2);
+
+								var status=(d.Affected===0?"not affected":(d.Affected===1?"affected, but safe":"in danger")),
+									national_team=d["National team"]?d["National team"]:d["Country of birth"],
+									playing_for=d["National team"]?"playing for":"from";
+
+								self.tooltip.show([
+										{
+											id:"name",
+											value:d.Name
+										},
+										{
+											id:"playing_for",
+											value:playing_for
+										},
+										{
+											id:"team",
+											value:national_team
+										},
+										{
+											id:"status",
+											value:status
+										}
+									],
+									x+dx+2,
+									y-1,
+									null
+								);
 							})
 		
 		player.filter(function(d){
@@ -145,11 +215,11 @@ export default class Team {
 									return "translate("+x+","+y+")";
 								})
 
-		position.append("line")
+		/*position.append("line")
 			.attr("x1",self.xscale.range()[1]/2)
 			.attr("y1",-this.margins.top)
 			.attr("x2",self.xscale.range()[1]/2)
-			.attr("y2",this.height)
+			.attr("y2",this.height)*/
 
 		position.append("line")
 			.attr("x1",-5)
@@ -158,9 +228,9 @@ export default class Team {
 			.attr("y1",0)
 
 		position.append("text")
-			.attr("x",0)
-			.attr("y",-1)
-			//.attr("dy","0.3em")
+			.attr("x",-10)
+			.attr("y",0)
+			.attr("dy","0.3em")
 			.text(function(d){
 				return d[0];
 			})
