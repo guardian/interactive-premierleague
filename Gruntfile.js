@@ -6,7 +6,9 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
-        visuals: { },
+        visuals: { 
+            
+        },
 
         watch: {
             js: {
