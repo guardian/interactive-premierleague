@@ -44,7 +44,15 @@ export default class Teams {
 				.attr("class","teams")
 				.selectAll("div.team")
 					.data(this.teams.sort(function(a,b){
-						return b.values.players.filter(function(d){return d.Affected===2}).length - a.values.players.filter(function(d){return d.Affected===2}).length
+						var aff_b=b.values.players.filter(function(d){return d.Affected===2}).length,
+							aff_a=a.values.players.filter(function(d){return d.Affected===2}).length;
+						if(aff_a === aff_b) {
+							aff_b=b.values.players.filter(function(d){return d.Affected===1}).length;
+							aff_a=a.values.players.filter(function(d){return d.Affected===1}).length;
+						}
+						return  aff_b - aff_a;
+						
+						
 					}))
 					.enter()
 					.append("div")
