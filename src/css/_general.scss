@@ -5,6 +5,11 @@ figure.interactive {
     background-color: #dcdcdc;
 }
 
+.interactive-share-buttons {
+    float:right;
+    margin-top: -46px;
+}
+
 // Link styles don't exist on the app
 a {
     &,
@@ -37,7 +42,7 @@ a {
 }
 
 .interactive-es6-headline {
-	@include fs-headline(5);
+	@include fs-header(3);
 }
 
 .test-msg {

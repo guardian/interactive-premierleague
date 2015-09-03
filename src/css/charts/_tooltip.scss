@@ -26,7 +26,7 @@
 	
 
 	//display: none;
-	color:#000;
+	color:#333;
 	
 	//-webkit-box-shadow: 1px 0 2px 1px rgba(0,0,0,0.2);
 	//box-shadow: 1px 0 2px 1px rgba(0,0,0,0.2);
@@ -38,7 +38,7 @@
 	}
 
 	span.value {
-		font-weight: bold;
+		// font-weight: bold;
 	}
 	
 
@@ -54,7 +54,7 @@
 	left:0;
 	top:0;
 	padding:10px;
-	background: #fff;
+	background: rgba(255,255,255,0.8);
 	border: 1px solid #aaa;
 	margin-left:10px;
 }

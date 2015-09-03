@@ -43,7 +43,7 @@ export default class Team {
 		this.width = box.width;
 		this.height = box.height;
 
-		this.width=140;
+		this.width=135;
 		this.height=120;
 
 		console.log(this.width,this.height)
@@ -78,17 +78,14 @@ export default class Team {
 	    	container:this.svg_container.node(),
 	    	margins:this.margins,
 	    	padding:"10px",
-	    	width:150,
-	    	html:"<p><span></span>, <span></span> <span></span> is <span></span></p>",
+	    	width:120,
+	    	html:"<p><span></span> <span></span> is <span></span></p>",
 	    	indicators:[
 	    		{
-	    			id:"name",
-	    		},
-	    		{
-	    			id:"playing_for"
-	    		},
-	    		{
 	    			id:"team"
+	    		},
+	    		{
+	    			id:"name",
 	    		},
 	    		{
 	    			id:"status"
@@ -145,16 +142,12 @@ export default class Team {
 
 								self.tooltip.show([
 										{
+											id:"team",
+											value:national_team+"’s"
+										},
+										{
 											id:"name",
 											value:d.Name
-										},
-										{
-											id:"playing_for",
-											value:playing_for
-										},
-										{
-											id:"team",
-											value:national_team
 										},
 										{
 											id:"status",

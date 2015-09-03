@@ -1,32 +1,33 @@
 .team {
 	position:relative;
-	width:140px;
+	width:135px;
 	//height:140px;
 	//border:1px solid #ddd;
 	//margin:5px 20px;
-	padding: 5px;
+	// padding: 5px;
 
 	.header {
 		h2 {
-			@include fs-header(1);
-			font-size: 12px;
-			text-align: center;
+			@include f-header;
+			font-size: 14px;
 			margin: 0;
 			padding: 0;
 		}	
 		p {
-			text-align: center;
+			// text-align: center;
 			margin: 0;
 			padding: 0;
 			@include fs-textSans(1);
-			font-size:11px;
-			color:#767676;
+			// font-size:11px;
+			color:#aaa;
 
 			span.safe {
-				color:#a9af2b;
+				color:#5babdc;
+				font-weight: 600;
 			}
 			span.affected {
-				color:#b82266;
+				color:#dc2a7d;
+				font-weight: 600;
 			}
 		}
 	}
@@ -41,20 +42,20 @@
 
 		g.player {
 			rect {
-				fill:#94b1ca;
+				fill:#ddd;
 			}
 		}
 		g.player.safe {
 			rect {
-				fill:#a9af2b;
+				fill:#5babdc;
 			}
 		}
 		g.player.affected {
 			rect {
-				fill:#b82266;
+				fill:#dc2a7d;
 			}
 			line {
-				stroke:#b82266;
+				stroke:#dc2a7d;
 				stroke-width:2;
 				stroke-linecap:butt;
 			}

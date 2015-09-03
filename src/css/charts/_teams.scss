@@ -3,7 +3,13 @@
 
 	.team {
 		float:left;
-		margin:5px 20px;
+		margin:5px 10px 10px 0px;
 	}
 
+}
+.sources {
+		border-top:1px dotted #ccc;
+		padding-top: 5px;
+		@include fs-textSans(2);
+		color:#767676;
 }
