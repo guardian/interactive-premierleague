@@ -3,8 +3,9 @@
 
 	.team {
 		float:left;
-		margin:5px 10px 10px 0px;
-	}
+	    @include mq(phablet) { width: calc(100% / 4); }
+	    @include mq(leftCol) { width: calc(100% / 5); }
+    }
 
 }
 .sources {
