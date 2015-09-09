@@ -1,3 +1,5 @@
+import {getNumCol} from '../utils/variables';
+
 export default function Tooltip(options) {
 
 	var w=options.width || 200,
@@ -56,51 +58,31 @@ export default function Tooltip(options) {
 					});
 	}
 	
-
+    var chartEl = document.querySelector(".interactive-container");
 	
 
 	this.hide=function() {
 		tooltip.classed("visible",false);
 	};
-	this.show=function(data,x,y,title,max_width) {
-		////console.log(x,y)
-		//percentage.text(data.percentage+"%");
-		//projection_value.text(data.total)
+	this.show=function(data,x,y,order,title) {
 
-		if(title) {
+        var isRightMost = (order%getNumCol() === 0),
+            left = isRightMost ? (x+86) : (x+options.margins.left),
+            top = (y+options.margins.top-25);
+		
+        if(title) {
 			tooltipTitle.text(title);	
 		}
 		
-
-		indicator.data(data);
-
-		indicator//.select("span.value")
-			.text(function(d){
-				////console.log("AAAHHHHHHHHHH",d,this)
-				return d.value;
-			})
+		indicator
+        .data(data)
+        .text(function(d){return d.value;});
 
 		tooltip
-			.classed("right",function(){
-				if(!max_width) {
-					return 0;
-				}
-				if(x+16+options.margins.left+w>max_width) {
-					return 1;
-				}
-				return 0;
-			})
-			/*.style({
-				left:(x+16+options.margins.left)+"px",
-				top:(y+options.margins.top-25)+"px"
-			})*/
-			.style("top",(y+options.margins.top-25)+"px")
-			.style("left",function(){
-				return (x+options.margins.left)+"px";
-			})
-			.classed("visible",true)
-			
-		
+        .classed("right", isRightMost)
+        .style("top", top+"px")
+        .style("left", left+"px")
+        .classed("visible",true);
 	};
 
 }
