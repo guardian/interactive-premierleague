@@ -1,7 +1,7 @@
 import DataUtils from '../utils/data';
 import Team from './Team';
 
-import {throttle} from '../lib/underscoreLite';
+import {throttle} from '../lib/underscore-lite';
 
 
 export default class Teams {

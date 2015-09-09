@@ -1,16 +1,16 @@
-import iframeMessenger from 'guardian/iframe-messenger'
-import d3 from 'd3'
-import mainHTML from './text/main.html!text'
-import players from '../data/players.json!json'
-import affected from '../data/affected.json!json'
+import iframeMessenger from 'guardian/iframe-messenger';
+import mainHTML from './text/main.html!text';
+import players from '../data/players.json!json';
+import affected from '../data/affected.json!json';
+import d3 from './lib/d3-lite.js';
 
-import Teams from './charts/Teams'
-import DataUtils from './utils/data'
+import Teams from './charts/Teams';
+import DataUtils from './utils/data';
 
 export function init(el, context, config, mediator) {
     iframeMessenger.enableAutoResize();
 
-    el.innerHTML = mainHTML
+    el.innerHTML = mainHTML;
 
     //console.log(d3)
     //console.log(players)
@@ -19,7 +19,7 @@ export function init(el, context, config, mediator) {
 
     var dataUtils=new DataUtils();
     dataUtils.mergeJSON(players,affected,"ID");
-
+    
     var teams=new Teams(players,{
         container:"#premierLeague"
     });
