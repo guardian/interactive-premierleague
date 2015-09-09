@@ -1,41 +1,57 @@
-import DataUtils from '../utils/data'
-import Team from './Team'
+import DataUtils from '../utils/data';
+import Team from './Team';
+
+import {throttle} from '../lib/underscoreLite';
+
 
 export default class Teams {
 
 	constructor(data,options) {
-		
-		
-
-		console.log("Teams",data)
+		//console.log("Teams",data)
 
 		var dataUtils=new DataUtils();
     	
     	this.teams=dataUtils.nestData(data,"Club");
     	this.extents=dataUtils.getExtents(this.teams);
 
-    	console.log(this.teams)
-    	console.log(this.extents)
+    	//console.log(this.teams)
+    	//console.log(this.extents)
 
 		this.getTeamInfo = () => {};
 
-		this.extents;
-
-		this.data=data;
-		this.options=options;
-
+		this.data = data;
+		this.options = options;
 
 
 		this._buildTeams();
 
+
+        var chartEl, teamEls, teamArr, teamNumPerCol, preTeamNum = 0;
+ 
+        chartEl = document.querySelector(".interactive-container");
+        teamEls = document.querySelectorAll(".team");
+        teamArr = Array.prototype.slice.call(teamEls);
+
+        // set width to .team based on width of elChart
+        function setTeamWidth() {
+            teamNumPerCol = Math.floor(chartEl.clientWidth/150);
+ 
+            if (preTeamNum === teamNumPerCol) { return; }
+            //TODO: user class instead to improve perf
+            teamArr.forEach(d => d.style.width = 100/teamNumPerCol+"%"); 
+            preTeamNum = teamNumPerCol;
+            //console.log(preTeamNum);
+        }
+        window.addEventListener('resize', throttle(setTeamWidth, 1000));
+        setTeamWidth();
+ 
+
 		//this._updateData(data);
-
 		//this._buildChart();
-
 	}
 
 	_buildTeams() {
-		console.log("Building teams",this.options.container)
+		//console.log("Building teams",this.options.container)
 
 		let self = this;
 
