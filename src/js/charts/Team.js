@@ -1,5 +1,6 @@
 import Tooltip from './Tooltip';
 
+
 export default class Team {
 
 	constructor(data,options) {
@@ -20,12 +21,12 @@ export default class Team {
 		this._buildChart();
     }
 
+
 	_buildChart() {
-        //console.log("buildChart",this.options);
 
 		let self = this;
 		
-        this.width = 135;
+        this.width = 145;
 		this.height = 120;
 
 		this.xscale = d3.scale.linear().domain([0,this.extents.perPosition[1]]).range([0,this.width-(this.margins.left+this.margins.right)]);

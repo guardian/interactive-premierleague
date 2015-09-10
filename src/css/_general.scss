@@ -42,6 +42,10 @@ a {
     //to fight with .from-content-api h2
 }
 
+.standfirst {
+    margin-bottom: 15px;
+}
+
 .test-msg {
 	color: #005689;
 	@include fs-textSans(3);

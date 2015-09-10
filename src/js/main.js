@@ -1,36 +1,47 @@
-import iframeMessenger from 'guardian/iframe-messenger';
+//import iframeMessenger from 'guardian/iframe-messenger';
 import mainHTML from './text/main.html!text';
-import players from '../data/players.json!json';
-import affected from '../data/affected.json!json';
 import d3 from './lib/d3-lite.js';
 
 import Teams from './charts/Teams';
-import DataUtils from './utils/data';
+
 
 export function init(el, context, config, mediator) {
-    iframeMessenger.enableAutoResize();
-
+    //iframeMessenger.enableAutoResize();
     el.innerHTML = mainHTML;
 
-    //console.log(d3)
-    //console.log(players)
-    //console.log(affected)
-
-
-    var dataUtils=new DataUtils();
-    dataUtils.mergeJSON(players,affected,"ID");
+    var key = "1VRr47zAvhcPGojDpswI_rHkvlNjMlUcbQxqdtdq0tr8",
+        src = "http://visuals.guim.co.uk/spreadsheetdata/" + key + ".json"; 
     
-    var teams=new Teams(players,{
-        container:"#premierLeague"
-    });
-
-    /*
-    d3.json("http://localhost:8080/?match_id="+pa_ids[7],function(data){
-
-        new Partnerships(data,{
-            container:"#matches"
+    d3.json(src, function(err, spreadsheet) {
+        
+        // load data
+        var sheetHeader = spreadsheet.sheets.header[0],
+            sheetPlayer = spreadsheet.sheets.footballers;
+        
+        // update header
+        var headlineEl = el.querySelector(".interactive-es6-headline"), 
+            standfirstEl = el.querySelector(".standfirst"),
+            sourceEl = el.querySelector(".sources");  
+        
+        headlineEl.textContent = sheetHeader.headline;
+        standfirstEl.textContent = sheetHeader.standfirst;
+        sourceEl.textContent = sheetHeader.source;
+        
+        // add charts
+        var players = sheetPlayer.map(d => {
+            var data = {
+                ID : d.id,
+                Name : d.name,
+                Affected : d.affected,        
+                Club : d.club,        
+                Position : d.position,
+                "Country of birth" : d.country,
+                "National team" : d.country
+            };
+            return data;
         });
-
-    });
-    */
+        //console.log(data);
+        
+        new Teams(players, {container:"#premierLeague"});
+    }); 
 }
