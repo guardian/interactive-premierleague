@@ -1,4 +1,5 @@
 import Tooltip from './Tooltip';
+import extentData from '../../data/extents.json!json';
 
 
 export default class Team {
@@ -8,7 +9,6 @@ export default class Team {
 		this.filter = 0;
 		this.data = data;
 		this.options = options;
-		this.extents = options.extents;
 		this.el = options.container;
 		
 		this.margins = {
@@ -29,8 +29,8 @@ export default class Team {
         this.width = 145;
 		this.height = 120;
 
-		this.xscale = d3.scale.linear().domain([0,this.extents.perPosition[1]]).range([0,this.width-(this.margins.left+this.margins.right)]);
-		this.yscale = d3.scale.ordinal().domain(this.extents.positions).rangePoints([0,this.height-(this.margins.top+this.margins.bottom)]);
+		this.xscale = d3.scale.linear().domain([0,extentData.perPosition[1]]).range([0,this.width-(this.margins.left+this.margins.right)]);
+		this.yscale = d3.scale.ordinal().domain(extentData.positions).rangePoints([0,this.height-(this.margins.top+this.margins.bottom)]);
         
         /* add header */
 		var header = d3.select(this.el).append("div").attr("class","header");
@@ -82,7 +82,7 @@ export default class Team {
             .attr("class","players")
             .attr("transform","translate("+this.margins.left+","+this.margins.top+")");
 
-		let player_width = (Math.floor(this.width / (this.extents.perPosition[1]+1)))-2;
+		let player_width = (Math.floor(this.width / (extentData.perPosition[1]+1)))-2;
 
 		let player = this.players
             .selectAll("g.player")
@@ -175,7 +175,7 @@ export default class Team {
             .attr("class", "field")
             .attr("transform", "translate("+this.margins.left+","+this.margins.top+")")
             .selectAll("g.position")
-            .data(this.extents.positions).enter()
+            .data(extentData.positions).enter()
                 .append("g")
                 .attr("class", "position")
                 .attr("transform", function(d){

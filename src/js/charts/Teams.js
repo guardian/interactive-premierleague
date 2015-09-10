@@ -1,24 +1,17 @@
 import Team from './Team';
 
 import {throttle} from '../lib/underscore-lite';
-import {dataNested, dataExtents} from '../utils/data';
 import {setNumCol, getNumCol} from '../utils/variables';
+
+import teamData from '../../data/teams.json!json';
 
 
 export default class Teams {
 
-	constructor(data, id, params) {
+	constructor(id, params) {
 		this.id = id;
+		this.params = params;
 
-    	this.teams = dataNested(data,"Club");
-    	this.extents = dataExtents(this.teams);
-
-        if (params) {
-            this.teams = this.teams.filter(d => {
-                return params.indexOf(d.key) !== -1; 
-            });
-        }
-        
         this._buildTeams();
         this._updateTeamWidth();
     }
@@ -28,15 +21,12 @@ export default class Teams {
         
 		let self = this;
         
-        var teams = this.teams.sort(function(a,b){
-            var aff_b=b.values.players.filter(function(d){return d.Affected===2;}).length,
-                aff_a=a.values.players.filter(function(d){return d.Affected===2;}).length;
-            if(aff_a === aff_b) {
-                aff_b=b.values.players.filter(function(d){return d.Affected===1;}).length;
-                aff_a=a.values.players.filter(function(d){return d.Affected===1;}).length;
-            }
-            return  aff_b - aff_a;
-        });
+        var teams = teamData; 
+        if (this.params) {
+            teams = teamData.filter(d => {
+                return this.params.indexOf(d.key) !== -1; 
+            });
+        }
 
         d3.select(this.id)
 		    .append("div")
@@ -52,7 +42,6 @@ export default class Teams {
                     new Team(d.values,{
                         team:d.key,
                         container:this,
-                        extents:self.extents,
                         order: i+1
                     });
                 });
