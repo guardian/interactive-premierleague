@@ -7,12 +7,18 @@ import {setNumCol, getNumCol} from '../utils/variables';
 
 export default class Teams {
 
-	constructor(data, options) {
-		this.id = options.container;
+	constructor(data, id, params) {
+		this.id = id;
 
     	this.teams = dataNested(data,"Club");
     	this.extents = dataExtents(this.teams);
 
+        if (params) {
+            this.teams = this.teams.filter(d => {
+                return params.indexOf(d.key) !== -1; 
+            });
+        }
+        
         this._buildTeams();
         this._updateTeamWidth();
     }
@@ -55,7 +61,7 @@ export default class Teams {
 
     _updateTeamWidth() {
 
-        var chartEl = document.querySelector(".interactive-container"),
+        var chartEl = document.querySelector(this.id),
             teamEls = document.querySelectorAll(".team"),
             teamArr = Array.prototype.slice.call(teamEls);
 

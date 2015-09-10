@@ -1,13 +1,26 @@
-//import iframeMessenger from 'guardian/iframe-messenger';
 import mainHTML from './text/main.html!text';
+import mainNewcastleHTML from './text/mainNewcastle.html!text';
+import mainTop5HTML from './text/mainTop5.html!text';
+
 import d3 from './lib/d3-lite.js';
 
 import Teams from './charts/Teams';
 
 
-export function init(el, context, config, mediator) {
-    //iframeMessenger.enableAutoResize();
-    el.innerHTML = mainHTML;
+export function init(el, param) {
+    
+    var chart = "",
+        html = mainHTML;
+    if (param === "Newcastle United") {
+        chart = "Newcastle";
+        html = mainNewcastleHTML;
+    } else if (param) {
+        chart = "Top5";
+        html = mainTop5HTML;
+    }
+    
+    el.innerHTML = html;
+    //this.param = param;
 
     var key = "1VRr47zAvhcPGojDpswI_rHkvlNjMlUcbQxqdtdq0tr8",
         src = "http://visuals.guim.co.uk/spreadsheetdata/" + key + ".json"; 
@@ -19,14 +32,16 @@ export function init(el, context, config, mediator) {
             sheetPlayer = spreadsheet.sheets.footballers;
         
         // update header
+        /*if (!this.param) {
         var headlineEl = el.querySelector(".interactive-es6-headline"), 
-            standfirstEl = el.querySelector(".standfirst"),
+            standfirstEl = el.querySelector(".standfirst"), 
             sourceEl = el.querySelector(".sources");  
         
         headlineEl.textContent = sheetHeader.headline;
-        standfirstEl.textContent = sheetHeader.standfirst;
+        standfisrtEl.textContent = sheetHeader.standfirst;
         sourceEl.textContent = sheetHeader.source;
-        
+        }*/
+
         // add charts
         var players = sheetPlayer.map(d => {
             var data = {
@@ -42,6 +57,6 @@ export function init(el, context, config, mediator) {
         });
         //console.log(data);
         
-        new Teams(players, {container:"#premierLeague"});
+        new Teams(players, "#premierLeague"+chart, param);
     }); 
 }

@@ -75,6 +75,8 @@ module.exports = function(grunt) {
             'bootjs': {
                 'files': {
                     'build/boot.js': ['src/js/boot.js.tpl'],
+                    'build/top5/boot.js': ['src/js/bootTop5.js.tpl'],
+                    'build/newcastle/boot.js': ['src/js/bootNewCastle.js.tpl']
                 }
             }
         },
@@ -94,7 +96,7 @@ module.exports = function(grunt) {
                 files: [
                     { // BOOT
                         expand: true, cwd: 'build/',
-                        src: ['boot.js'],
+                        src: ['boot.js', 'top5/boot.js', 'newcastle/boot.js'],
                         dest: 'deploy/<%= visuals.timestamp %>'
                     },
                     { // ASSETS
@@ -177,7 +179,7 @@ module.exports = function(grunt) {
                     { // BOOT
                         expand: true,
                         cwd: 'deploy/<%= visuals.timestamp %>',
-                        src: ['boot.js'],
+                        src: ['boot.js', 'top5/boot.js', 'newcastle/boot.js'],
                         dest: '<%= visuals.s3.path %>',
                         params: { CacheControl: 'max-age=60' }
                     }]
@@ -213,15 +215,15 @@ module.exports = function(grunt) {
             jspmFlags: '-m',
             assetPath: '<%= visuals.s3.domain %><%= visuals.s3.path %>/<%= visuals.timestamp %>'
         });
-    })
+    });
 
     grunt.registerTask('boot_url', function() {
-        grunt.log.write('\nBOOT URL: '['green'].bold)
-        grunt.log.writeln(grunt.template.process('<%= visuals.s3.domain %><%= visuals.s3.path %>/boot.js'))
-    })
+        grunt.log.write('\nBOOT URL: '['green'].bold);
+        grunt.log.writeln(grunt.template.process('<%= visuals.s3.domain %><%= visuals.s3.path %>/boot.js'));
+    });
 
-    grunt.registerTask('harness', ['copy:harness', 'template:harness', 'sass:harness', 'symlink:fonts'])
-    grunt.registerTask('interactive', ['shell:interactive', 'template:bootjs', 'sass:interactive', 'copy:assets'])
+    grunt.registerTask('harness', ['copy:harness', 'template:harness', 'sass:harness', 'symlink:fonts']);
+    grunt.registerTask('interactive', ['shell:interactive', 'template:bootjs', 'sass:interactive', 'copy:assets']);
     grunt.registerTask('default', ['clean', 'harness', 'interactive', 'connect', 'watch']);
     grunt.registerTask('build', ['clean', 'interactive']);
     grunt.registerTask('deploy', ['loadDeployConfig', 'prompt:visuals', 'build', 'copy:deploy', 'aws_s3', 'boot_url']);

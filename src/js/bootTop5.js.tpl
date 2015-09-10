@@ -26,7 +26,7 @@ define([], function() {
 
             // Load JS and init
             require(['<%= assetPath %>/main.js'], function(main) {
-                main.init(el);
+                main.init(el, "Chelsea, Manchester City, Arsenal, Manchester United, Tottenham Hotspur");
             }, function(err) { console.error('Error loading boot.', err); });
         }
     };

@@ -113,7 +113,7 @@ export default class Team {
                         y=self.yscale(d.Position);
                     var dx=self.xscale.range()[1]/2 - self.xscale((self.data[d.Position].length-1)/2);
 
-                    var status=(d.Affected===0?"not affected":(d.Affected===1?"affected, but safe":"in danger")),
+                    var status=(d.Affected===0?"not affected":(d.Affected===1?"safe":"affected")),
                         national_team=d["National team"]?d["National team"]:d["Country of birth"],
                         playing_for=d["National team"]?"playing for":"from";
                     

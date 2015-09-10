@@ -6,11 +6,11 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
-  bundles: {
+  /*bundles: {
     "build/main": [
       "src/js/main"
     ]
-  },
+  },*/
 
   map: {
     "d3": "github:mbostock/d3@3.5.6",
